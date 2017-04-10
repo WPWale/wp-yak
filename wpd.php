@@ -58,6 +58,36 @@ namespace Yapapaya\DevOps\WPD {
 	 * @since 0.1
 	 */
 	define( 'ABSPATH', dirname( __FILE__ ) . '/' );
+	
+
+	if ( file_exists( dirname( WPD_ABSPATH ) . 'wp-deploy-config/repositories-to-deploy.php' ) ) {
+
+		/**
+		 * Config Path
+		 * 
+		 * @since 0.1
+		 */
+		define( 'CONFIGPATH', dirname( WPD_ABSPATH ) . 'wp-deploy-config/' );
+	} elseif ( file_exists( WPD_ABSPATH . 'wp-deploy-config/repositories-to-deploy.php' ) ) {
+
+		/**
+		 * Config Path
+		 * 
+		 * @since 0.1
+		 */
+		define( 'CONFIGPATH', WPD_ABSPATH . 'wp-deploy-config/' );
+	} else {
+
+		error( 
+			'501 Not Implemented',
+			'Configuration not found in expected paths'
+		);
+	}
+	
+	/**
+	 * Import Constants set by user if any
+	 */
+	require_once(CONFIGPATH.'application-constants.php');
 
 
 	if ( ! defined( 'LOG' ) ) {
@@ -89,30 +119,6 @@ namespace Yapapaya\DevOps\WPD {
 	
 
 
-
-	if ( file_exists( dirname( WPD_ABSPATH ) . 'wp-deploy-config/repositories-to-deploy.php' ) ) {
-
-		/**
-		 * Config Path
-		 * 
-		 * @since 0.1
-		 */
-		define( 'CONFIGPATH', dirname( WPD_ABSPATH ) . 'wp-deploy-config/' );
-	} elseif ( file_exists( WPD_ABSPATH . 'wp-deploy-config/repositories-to-deploy.php' ) ) {
-
-		/**
-		 * Config Path
-		 * 
-		 * @since 0.1
-		 */
-		define( 'CONFIGPATH', WPD_ABSPATH . 'wp-deploy-config/' );
-	} else {
-
-		error( 
-			'501 Not Implemented',
-			'Configuration not found in expected paths'
-		);
-	}
 
 	/**
 	 * Include main class that handles deployment

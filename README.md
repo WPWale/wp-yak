@@ -36,126 +36,105 @@ git clone git@github.com:Yapapaya/wpd.git /var/www/yoursite.com/htdocs/
 (_Optional_)Move `wdp-config` outside the web root for security, especially if you're using tokens
 
 ```
-mv /var/www/yoursite.com/htdocs/wpd/wpd-config.php /var/www/yoursite.com/wpd-config.php
+mv /var/www/yoursite.com/htdocs/wp-deploy/wp-deploy-config /var/www/yoursite.com/wp-deploy-config
 ```
 
 #### 1.2. (Optional) Set up schema for GitLab
 
 
-If your remote repository is on [GitHub](https://github.com) or [BitBucket](https://bitbucket.org), you can skip step 1 and start with 2.
+If your remote repository is on [GitHub](https://github.com) or [BitBucket](https://bitbucket.org), you can skip step 1.2 and start with 1.3.
 
 If your remote repository is on a self-hosted instance of GitLab CE, you need to set up schema for it.
 
 ```
-vim /var/www/yoursite.com/htdocs/wpd/payload.schema
+vim /var/www/yoursite.com/htdocs/wp-deploy-config/webhook-payload-schema.php
 ```
+
+or
+
+```
+vim /var/www/yoursite.com/wp-deploy-config/webhook-payload-schema.php
+```
+
 The schema for GitLab looks like this
 
 ```
-// Payload Schema for GitLab
-"GitLab" => array(
-
+// Payload Schema for GitLab Instance
 	// your Gitlab instance's domain
-	"domain" => 'git.yapapaya.in', 
-
-	// your GitLab instance's IP range in CIDR format
-	// use http://www.ipaddressguide.com/cidr to get it
-	"ip_whitelist" => '192.157.221.84/32',
-
-
-	"token_header" => 'X-Hub-SignatureX-Gitlab-Token',
-	"ref_type_param" => array( 'ref' ),
-	"ref_type_pattern" => array(
-			'branch' => '^refs\/head\/',
-			'tag' => '^refs\/tag\/'
+	'git.yoursite.com' => array(
+		// your GitLab instance's IP range in CIDR format
+		// use http://www.ipaddressguide.com/cidr to get it
+		"ip_whitelist" => '127.0.0.0/32',
+		"token" => array(
+			"header" => 'HTTP_X_Gitlab_Token',
+			"hashed" => false,
+		),
+		"ref" => array(
+			"param" => array( 'ref' ),
+			"pattern" => '^refs\/head\/',
+		),
+		"branch_name" => array(
+			"param" => array( 'ref' ),
+			"pattern" => '^refs\/head\/(.*)$',
+		),
+		"git_archive" => true,
 	),
-	"ref_name_param" => array('ref'),
-	"ref_name_pattern" =>  array(
-			'branch' => '^refs\/head\/(.*)$',
-			'tag' => '^refs\/tag\/(.*)$'
-	),
-),
 ```
 Just add your instance's domain name and optionally, a valid IP range for added security.
 
-You can configure more than one instance of GitLab, but the key would still be GitLab for all such instances:
-
-```
-// Payload Schema for first GitLab CE instance
-"GitLab" => array(
-
-	// your Gitlab instance's domain
-	"domain" => 'git.yapapaya.in', 
-
-	// your GitLab instance's IP range in CIDR format
-	// use http://www.ipaddressguide.com/cidr to get it
-	"ip_whitelist" => '192.157.221.84/32',
-
-
-	"token_header" => 'X-Hub-SignatureX-Gitlab-Token',
-	"ref_type_param" => array( 'ref' ),
-	"ref_type_pattern" => array(
-			'branch' => '^refs\/head\/',
-			'tag' => '^refs\/tag\/'
-	),
-	"ref_name_param" => array('ref'),
-	"ref_name_pattern" =>  array(
-			'branch' => '^refs\/head\/(.*)$',
-			'tag' => '^refs\/tag\/(.*)$'
-	),
-),
-// Payload Schema for second GitLab CE instance
-"GitLab" => array(
-
-	// your Gitlab instance's domain
-	"domain" => 'git.baapwp.me', 
-
-	// your GitLab instance's IP range in CIDR format
-	// use http://www.ipaddressguide.com/cidr to get it
-	"ip_whitelist" => '',
-
-
-	"token_header" => 'X-Hub-SignatureX-Gitlab-Token',
-	"ref_type_param" => array( 'ref' ),
-	"ref_type_pattern" => array(
-			'branch' => '^refs\/head\/',
-			'tag' => '^refs\/tag\/'
-	),
-	"ref_name_param" => array('ref'),
-	"ref_name_pattern" =>  array(
-			'branch' => '^refs\/head\/(.*)$',
-			'tag' => '^refs\/tag\/(.*)$'
-	),
-),
-```
 #### 1.3. Configure Repos
 
-Open `wpd-config.php` for editing
+Open repository configuration
 
 ```
-vim /var/www/yoursite.com/wpd-config.php
+vim /var/www/yoursite.com/htdocs/wp-deploy-config/repositories-to-deploy.php
 ```
-For each of your repos, create a config item in the `$config` array. There are enogh examples in the file itself. Each item is intern an array with the following keys
 
- * `ref_type` (`'branch'` or `'tag'`) The type of git reference that we'll sync server's code with.
- * `ref_name` The name of the reference, i.e., the branch name. This wil be ignored if the `ref_type` is a tag. WPDeploy will always sync with the latest tag (release).
- * `path` The absolute path where the code will be synced to. For a theme, on EasyEngine, it'd be `/var/www/yoursite.com/htdocs/wp-content/themes/`
- * `git_url` The git url of the repo of the type `git@github.com:your-organisation-or-username/your-theme.git`,
+or
+
+```
+vim /var/www/yoursite.com/wp-deploy-config/repositories-to-deploy.php
+```
+
+For each of your repos, create a config item in the `$config` array. There are enough examples in the file itself. Each item is intern an array with the following keys
+
+ * `git_url` The git url of the repo in the format `git@github.com:your-organisation-or-username/your-theme.git`
+ * `type` (`'theme'`, `'plugin'`, `'mu-plugin'`) The type of project that will be deployed.
+ * `branch` The name of the branch to deploy.
  * `token` (_optional_) For security, gitLab & GitHub allow you to set a secret token when setting up webhooks.
 
 #### 1.4. (Optional) Setup Environment Constants
 
-You can uncomment and set the following constants to change how WPDeploy behaves.
+Open constants file
+
+Open repository configuration
 
 ```
-define( 'WPD_LOG', true );
+vim /var/www/yoursite.com/htdocs/wp-deploy-config/application-constants.php
+```
+
+or
+
+```
+vim /var/www/yoursite.com/wp-deploy-config/application-constants.php
+```
+
+
+```
+define( 'LOG', true );
 ```
 
 This logs all the requests, for debugging or any other reason.
 
+```
+define( 'LOGFILE', '/path/to/directory' );
+```
+
+Log to a custom file, instead of the default.
+
 
 ```
-define( 'WPD_SLIM', false);
+define( 'SLIM', false);
 ```
 
 By default, WPDeploy performs slim deploys using `git archive` or `svn export`(for GitHub). This means that the whole repository is not maintained on the server. This can save up a lot of space and data and is similar to downloading a zip file of the specified branch or tag without the commit history (the `.git` directory).
@@ -187,6 +166,4 @@ where the value of the `deploy` parameter of the querystring is the same as the 
 
 Now, write code as usual and push to a branch. If the branch is mapped to a server, the code will get automatically deployed.
 
-To deploy on a production server, make sure that `ref_type` is set as `'tag'` in the config and create a new tag (or a release) and the latest release will be deployed automatically.
-
-You could even map the prduction server to a branch instead of a tag. However, mapping production to tags or releases is a better mental model to work with, IMO.
+No cloning or other setup needed. WP Deploy will automatically clone, initialise, pull, etc as needed.

@@ -9,7 +9,7 @@ return $config = array(
 		// use http://www.ipaddressguide.com/cidr to get it
 		"ip_whitelist" => '127.0.0.0/32',
 		"token" => array(
-			"header" => 'X-Gitlab-Token',
+			"header" => 'HTTP_X_Gitlab_Token',
 			"hashed" => false,
 		),
 		"ref" => array(
@@ -27,7 +27,7 @@ return $config = array(
 	"github.com" => array(
 		"ip_whitelist" => '192.30.252.0/22',
 		"token" => array(
-			"header" => 'X-Hub-Signature',
+			"header" => 'HTTP_X_Hub_Signature',
 			"hashed" => "sha1",
 		),
 		"ref" => array(
