@@ -60,22 +60,22 @@ namespace Yapapaya\DevOps\WPD {
 	define( 'ABSPATH', dirname( __FILE__ ) . '/' );
 	
 
-	if ( file_exists( dirname( WPD_ABSPATH ) . 'wp-deploy-config/repositories-to-deploy.php' ) ) {
+	if ( file_exists( dirname(dirname( ABSPATH )) . '/wp-deploy-config/repositories-to-deploy.php' ) ) {
 
 		/**
 		 * Config Path
 		 * 
 		 * @since 0.1
 		 */
-		define( 'CONFIGPATH', dirname( WPD_ABSPATH ) . 'wp-deploy-config/' );
-	} elseif ( file_exists( WPD_ABSPATH . 'wp-deploy-config/repositories-to-deploy.php' ) ) {
+		define( 'CONFIGPATH', dirname(dirname( ABSPATH )) . '/wp-deploy-config/' );
+	} elseif ( file_exists( ABSPATH . 'wp-deploy-config/repositories-to-deploy.php' ) ) {
 
 		/**
 		 * Config Path
 		 * 
 		 * @since 0.1
 		 */
-		define( 'CONFIGPATH', WPD_ABSPATH . 'wp-deploy-config/' );
+		define( 'CONFIGPATH', ABSPATH . 'wp-deploy-config/' );
 	} else {
 
 		error( 
@@ -116,8 +116,6 @@ namespace Yapapaya\DevOps\WPD {
 		 */
 		define( 'SLIM', true );
 	}
-	
-
 
 
 	/**
@@ -125,28 +123,28 @@ namespace Yapapaya\DevOps\WPD {
 	 * 
 	 * @since 0.1
 	 */
-	require_once( WPD_ABSPATH . '/classes/Config.php' );
+	require_once( ABSPATH . 'classes/Config.php' );
 	
 	/**
 	 * Include main class that handles deployment
 	 * 
 	 * @since 0.1
 	 */
-	require_once( WPD_ABSPATH . '/classes/Payload.php' );
+	require_once( ABSPATH . 'classes/Payload.php' );
 
 	/**
 	 * Include main class that handles deployment
 	 * 
 	 * @since 0.1
 	 */
-	require_once( WPD_ABSPATH . '/classes/Map.php' );
+	require_once( ABSPATH . 'classes/Map.php' );
 
 	/**
 	 * Include main class that handles deployment
 	 * 
 	 * @since 0.1
 	 */
-	require_once( WPD_ABSPATH . '/classes/Deploy.php' );
+	require_once( ABSPATH . 'classes/Deploy.php' );
 
 
 	/*
