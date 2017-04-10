@@ -30,7 +30,7 @@ Right now there're no automattic installation methods, you'd have to clone this 
 If you're using EasyEngine, follow these steps, after logging in via ssh, clone this repository to your webroot
 
 ```
-git clone git@github.com:Yapapaya/wpd.git /var/www/yoursite.com/htdocs/
+git clone git@github.com:Yapapaya/wp-deploy.git /var/www/yoursite.com/htdocs/
 ```
 
 (_Optional_)Move `wdp-config` outside the web root for security, especially if you're using tokens
