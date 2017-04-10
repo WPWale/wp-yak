@@ -12,7 +12,7 @@ namespace Yapapaya\DevOps\WPD {
 	 * @author Saurabh Shukla <saurabh@yapapaya.com>
 	 * 
 	 */
-	class WPD {
+	class Deploy {
 
 		/**
 		 *
