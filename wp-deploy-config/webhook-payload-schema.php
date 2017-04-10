@@ -1,0 +1,62 @@
+<?php
+
+return $config = array(
+	
+	// Payload Schema for GitLab Instance
+	// your Gitlab instance's domain
+	'git.yoursite.com' => array(
+		// your GitLab instance's IP range in CIDR format
+		// use http://www.ipaddressguide.com/cidr to get it
+		"ip_whitelist" => '127.0.0.0/32',
+		"token" => array(
+			"header" => 'X-Gitlab-Token',
+			"hashed" => false,
+		),
+		"ref" => array(
+			"param" => array( 'ref' ),
+			"pattern" => '^refs\/head\/',
+		),
+		"branch_name" => array(
+			"param" => array( 'ref' ),
+			"pattern" => '^refs\/head\/(.*)$',
+		),
+		"git_archive" => true,
+	),
+
+	// Payload Schema for GitHub.com
+	"github.com" => array(
+		"ip_whitelist" => '192.30.252.0/22',
+		"token" => array(
+			"header" => 'X-Hub-Signature',
+			"hashed" => "sha1",
+		),
+		"ref" => array(
+			"param" => array( 'ref' ),
+			"pattern" => '^refs\/head\/',
+		),
+		"branch_name" => array(
+			"param" => array( 'ref' ),
+			"pattern" => '^refs\/head\/(.*)$',
+		),
+		"git_archive" => false,
+	),
+	
+	// Payload Schema for BitBucket.org
+	"bitbucket.org" => array(
+		"ip_whitelist" => '104.192.143.0/24',
+		"token" => array(
+			"header" => false,
+		),
+		"ref" => array(
+			"param" => array( 'push', 'changes', 'new', 'type' ),
+			"pattern" => '^branch$',
+		),
+		"branch_name" => array(
+			"param" => array( 'push', 'changes', 'new', 'name' ),
+			"pattern" => '^(.*$)',
+		),
+		"git_archive" => false,
+	),
+	
+);
+
