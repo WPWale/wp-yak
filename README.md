@@ -1,3 +1,8 @@
+#WP Deploy
+
+    Untested code, written only as a concept. Don't use yet.
+
+
 ## Pre-Requisites
 Make sure that the following are installed:
  * `git`
