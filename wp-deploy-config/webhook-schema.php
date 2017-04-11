@@ -10,7 +10,7 @@
  * @since 0.1.0
  */
 return $config = array(
-	
+
 	// Payload Schema for GitLab Instance
 	// your Gitlab instance's domain
 	'git.yoursite.com' => array(
@@ -51,7 +51,7 @@ return $config = array(
 		),
 		"git_archive" => false,
 	),
-	
+
 	// Payload Schema for BitBucket.org
 	"bitbucket.org" => array(
 		"ip_whitelist" => '104.192.143.0/24',
@@ -71,4 +71,3 @@ return $config = array(
 	),
 	
 );
-

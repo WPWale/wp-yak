@@ -26,7 +26,7 @@ namespace Yapapaya\DevOps\WPD {
 		 * @since 0.1
 		 */
 		private $content;
-		
+
 		/**
 		 * Deployment config
 		 * 
@@ -35,7 +35,7 @@ namespace Yapapaya\DevOps\WPD {
 		 * @since 0.1
 		 */
 		private $config;
-		
+
 		/**
 		 * Raw payload body
 		 *
@@ -51,9 +51,9 @@ namespace Yapapaya\DevOps\WPD {
 		public function __construct( Config $config ) {
 
 			$this->config = $config;
-	
+
 		}
-		
+
 		/**
 		 * Setup the payload content
 		 * 
@@ -77,7 +77,7 @@ namespace Yapapaya\DevOps\WPD {
 		 * @since 0.1
 		 */
 		public function load() {
-			
+
 			// save raw payload body for hash checks, etc
 			$this->raw = file_get_contents( 'php://input' );
 
@@ -100,11 +100,11 @@ namespace Yapapaya\DevOps\WPD {
 		 * @return boolean
 		 */
 		public function is_IP_valid() {
-			
+
 			// what header to check for
 			// if not specified, use the default one
 			$ip_header = empty($this->config->schema[ 'ip_param' ])? 'REMOTE_ADDR': $this->config->schema[ 'ip_param' ];
-			
+
 			/*
 			 * Note on Cloudflare and proxies
 			 * ==============================
@@ -116,10 +116,10 @@ namespace Yapapaya\DevOps\WPD {
 			 * For such proxies, find out the header that will give you
 			 *  the original IP and set that in the 'ip_param' of the schema.
 			 */
-			
+
 			// filter and get the IP
 			$ip  = filter_input( \INPUT_SERVER, $ip_header );
-			
+
 			// IP not there can be strange, bail
 			if ( empty( $ip ) ) {
 				error('400 Bad Request', 'Invalid Remote IP' );
@@ -129,7 +129,7 @@ namespace Yapapaya\DevOps\WPD {
 			if ( empty( $this->config->schema[ 'ip_whitelist' ] ) ) {
 				return true;
 			}
-			
+
 			// otherwise, check if IP is in the whitelisted range
 			if ( ! $this->cidr_match( $ip, $this->config->schema[ 'ip_whitelist' ] ) ) {
 				error('400 Bad Request', 'Untrusted Remote IP' );
@@ -183,33 +183,32 @@ namespace Yapapaya\DevOps\WPD {
 			if ( empty( $token_header ) ) {
 				return true;
 			}
-			
+
 			// filter and get token
 			$token  = filter_input( \INPUT_SERVER, $token_header );
 
 			// assume token is invalid
 			$valid = false;
-			
+
 			// get the hash algorithm from schema
 			$hash_algo = $this->config->schema[ 'token']['hashed'];
-			
 
 			// no hash algorithm means token is plain text
 			if ( empty($hash_algo) ) {
 				return ($token === $this->config->repo[ 'token' ]);
 			}
-			
+
 			// otherwise, split the token into hash and hashed token
 			list($algo, $provided_hash) = explode('=', $token, 2) + array('', '');
-			
+
 			// is the hash algorithm available to the system?
 			if (!in_array($algo, hash_algos(), TRUE)) {
 				error('400 Bad Request',"Hash algorithm '$algo' is not supported.");
 			}
-			
+
 			// calculate the hash using the token and the raw body
 			$computed_hash = hash_hmac( $provided_hash, $this->raw, $this->config->repo[ 'token' ] );
-			
+
 			// the token either checks out or doesn't
 			return hash_equals( $provided_hash, $computed_hash );
 		}

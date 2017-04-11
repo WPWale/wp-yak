@@ -60,13 +60,13 @@ namespace Yapapaya\DevOps\WPD {
 		public function deploy(){
 			// load all configuration, payload, etc
 			$this->load();
-			
+
 			// setup directories
 			$this->setup_dirs();
-			
+
 			// initialise local git repositories
 			$this->init_repo();
-			
+
 			// run the deployment
 			$this->_deploy();
 		}
@@ -93,12 +93,12 @@ namespace Yapapaya\DevOps\WPD {
 		 * @since 0.1
 		 */
 		public function test_commands() {
-			
+
 			// test git
 			if ( ! $this->test_cmd( 'git' ) ) {
 				error( '501 Not Implemented', '<code>git</code> is not installed' );
 			}
-			
+
 			// if we're running a slim deploy but the remote deosn't support `git archive`,
 			// we need svn to run `svn export`
 			if (
@@ -210,7 +210,7 @@ namespace Yapapaya\DevOps\WPD {
 			} else {
 				$this->run_cmd();	
 			}
-			
+
 			// deploy complete!
 			error('200 OK', 'Deployment completed successfully');
 			/*
@@ -259,13 +259,13 @@ namespace Yapapaya\DevOps\WPD {
 
 			// switch to the directory where the repo is maintained
 			chdir( "wpd-repos/{$this->config->repo[ 'name' ]}" );
-			
+
 			// pull the latest code from the branch
 			exec( "git pull origin $branch" );
 
 			// copy only the code to the deploy path
 			exec( "git archive $branch | (cd " . $path . " && tar -x)" );
-			
+
 			/*
 			 * Note on `git archive`
 			 * ====================

@@ -10,7 +10,7 @@
  * @since 0.1.0
  */
 return $config = array(
-	
+
 	// theme config
 	array(
 		'git_url' => "git@github.com:your-organisation-or-username/your-theme.git",
@@ -18,7 +18,7 @@ return $config = array(
 		'branch' => 'master',
 		'token' => "",
 	),
-	
+
 	// plugin config
 	array(
 		'git_url' => "git@github.com:your-organisation-or-username/your-plugin.git",
@@ -26,7 +26,7 @@ return $config = array(
 		'branch' => 'master',
 		'token' => "",
 	),
-	
+
 	// mu-plugin config
 	array(
 		'git_url' => "git@github.com:your-organisation-or-username/your-plugin.git",
@@ -34,7 +34,7 @@ return $config = array(
 		'branch' => 'master',
 		'token' => "",
 	),
-	
+
 	// custom config
 	/*
 	array(

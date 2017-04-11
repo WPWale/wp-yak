@@ -94,6 +94,7 @@ namespace Yapapaya\DevOps\WPD {
 	 */
 	define( 'CONFIGPATH', dirname( dirname( ABSPATH ) ) . '/wp-deploy-config/' );
 
+
 	/**
 	 * Import Constants set by user if any
 	 */

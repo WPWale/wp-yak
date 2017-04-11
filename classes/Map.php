@@ -27,12 +27,11 @@ namespace Yapapaya\DevOps\WPD {
 		 * @since 0.1
 		 */
 		public function init( Config $config, $payload ) {
-			
+
 			// if the payload doesn't match our deploy config, there's nothing to do
 			if(!$this->is_branch( $config, $payload ) || !$this->is_right_branch( $config, $payload )){
 				error('200 OK', 'No deploy configured for this ref');
 			}
-			
 		}
 		
 		/**
@@ -46,15 +45,15 @@ namespace Yapapaya\DevOps\WPD {
 		 * @return boolean
 		 */
 		public function is_branch(Config $config, $payload){
-			
+
 			// get the parameter with the ref type (branch or tag) from the payload
 			$ref_type_param = $this->get_nested_array_value( $payload, $config->schema[ 'ref']['param' ] );
-			
+
 			$matches = array();
-			
+
 			// get the regex pattern for ref type from schema
 			$pattern = $config->schema[ 'ref']['pattern' ];
-			
+
 			// match to get the ref type
 			preg_match( $pattern, $ref_type_param, $matches );
 
@@ -65,7 +64,7 @@ namespace Yapapaya\DevOps\WPD {
 
 			return true;
 		}
-		
+
 		/**
 		 * Checks if webhook was for the configured branch
 		 * 
@@ -77,7 +76,7 @@ namespace Yapapaya\DevOps\WPD {
 		 * @return boolean
 		 */
 		public function is_right_branch(Config $config, $payload){
-			
+
 			// get the parameter with the branch name from the payload
 			$ref_name_param = $this->get_nested_array_value( $payload, $config->schema[ 'branch_name']['param' ] );
 
@@ -93,12 +92,12 @@ namespace Yapapaya\DevOps\WPD {
 			if ( !isset( $matches[ 1 ] ) || empty( $matches[ 1 ] ) ) {
 				return false;
 			}
-			
+
 			// branch name found but is different from the config, payload not meant for us
 			if($matches[1]!== $config->repo['branch']){
 				return false;
 			}
-			
+
 			// otherwise, the payload is for the configured branch
 			// and we need to deploy! :D
 			return true;
