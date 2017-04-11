@@ -1,5 +1,14 @@
 <?php
-
+/**
+ * Contains schemas/patterns for webhook payloads
+ * 
+ * @package WP-Deploy
+ * @subpackage WP-Deploy-Config
+ * 
+ * @author Saurabh Shukla <saurabh@yapapaya.com>
+ * 
+ * @since 0.1.0
+ */
 return $config = array(
 	
 	// Payload Schema for GitLab Instance

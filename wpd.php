@@ -5,7 +5,7 @@
  * 
  * Written in familiar PHP, WPDeploy (WPD) is a simple, powerful, extendable deployment for WordPress Pugin & Theme Development
  * 
- * @package WPDeploy
+ * @package WP-Deploy
  * @version 0.1.0
  * 
  * @author Saurabh Shukla <saurabh@yapapaya.com>
