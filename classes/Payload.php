@@ -49,8 +49,8 @@ namespace Yapapaya\DevOps\WPD {
 		 */
 		public function is_IP_valid() {
 			
-			$ip = $_SERVER[ 'REMOTE_ADDR' ];
-
+			$ip = $_SERVER[ $this->config->schema[ 'ip_param' ] ];
+			
 			if ( empty( $ip ) ) {
 				error('400 Bad Request', 'Invalid Remote IP' );
 			}
@@ -101,7 +101,7 @@ namespace Yapapaya\DevOps\WPD {
 
 			$valid = false;
 			
-			$hash_algo = $this->config->schema[ 'token']['hash'];
+			$hash_algo = $this->config->schema[ 'token']['hashed'];
 
 			if ( empty($hash_algo) ) {
 				return ($_SERVER[ $token_header ] === $this->config->repo[ 'token' ]);

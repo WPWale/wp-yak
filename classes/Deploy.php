@@ -35,20 +35,20 @@ namespace Yapapaya\DevOps\WPD {
 		 * @since 0.1
 		 * @return type
 		 */
-		public function __construct( $config ) {
+		public function __construct() {
+			
+			$this->config = new Config();
 
 			$this->test_commands();
 		}
 
 		public function load() {
 
-			$this->config = new \Yapapaya\DevOps\WPD\Config();
-
 			$payload = new \Yapapaya\DevOps\WPD\Payload( $this->config );
 
 			$this->payload = $payload->setup();
 
-			$map = new \Yapapaya\DevOps\WPD\MapSchema();
+			$map = new \Yapapaya\DevOps\WPD\Map();
 
 			$map->init( $this->config, $this->payload );
 		}
@@ -64,7 +64,7 @@ namespace Yapapaya\DevOps\WPD {
 			if ( ! $this->test_cmd( 'git' ) ) {
 				error( '501 Not Implemented', '<code>git</code> is not installed' );
 			}
-			if ( SLIM && ($this->config->schema[ 'git-archive' ] === false) && ! $this->test_cmd( "svn" ) ) {
+			if ( SLIM && ($this->config->schema[ 'git_archive' ] === false) && ! $this->test_cmd( "svn" ) ) {
 				error( '501 Not Implemented', '<code>svn</code> is not installed' );
 			}
 		}
@@ -208,8 +208,8 @@ namespace Yapapaya\DevOps\WPD {
 		 */
 		public function test_cmd( $cmd ) {
 			$return_var = "";
-			exec( "hash $cmd", null, $return_var );
-			return ! empty( $return_var );
+			exec( "hash $cmd", $op, $return_var );
+			return empty( $return_var );
 		}
 
 	}

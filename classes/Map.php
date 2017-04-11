@@ -17,8 +17,7 @@ namespace Yapapaya\DevOps\WPD {
 			
 			$matches = array();
 
-			$pattern = "/" . preg_quote( $config->schema[ 'ref']['pattern' ], "/" ) . "/";
-			
+			$pattern = $config->schema[ 'ref']['pattern' ];
 			preg_match( $pattern, $ref_type_param, $matches );
 
 			if ( !isset( $matches[ 0 ] ) || empty( $matches[ 0 ] ) ) {
@@ -33,7 +32,7 @@ namespace Yapapaya\DevOps\WPD {
 
 			$matches = array();
 
-			$pattern = "/" . preg_quote( $config->schema[ 'branch_name']['pattern' ][ $ref_type ], "/" ) . "/";
+			$pattern = $config->schema[ 'branch_name']['pattern' ];
 
 			preg_match( $pattern, $ref_name_param, $matches );
 
