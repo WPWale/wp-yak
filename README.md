@@ -1,6 +1,8 @@
-#WP Deploy
+# WP Deploy
 
-    ~Untested code, written only as a concept~ Tested only for GitHub. Don't use yet.
+Written in familiar PHP, WPDeploy (WPD) is a simple, but powerful deployment tool for WordPress Plugin & Theme Development
+
+    Tested only for GitHub. Don't use yet.
 
 
 ## Pre-Requisites
