@@ -33,21 +33,31 @@
  *  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 namespace Yapapaya\DevOps\WPD {
-	
+
+	// filter and get the protocol
+	$server_protocol = filter_input( \INPUT_SERVER, 'SERVER_PROTOCOL' );
+
 	/**
 	 * HTTP Protocol
 	 * 
 	 * @since 0.1
 	 */
-	define( 'PROTOCOL', isset( $_SERVER[ 'SERVER_PROTOCOL' ] ) ? $_SERVER[ 'SERVER_PROTOCOL' ] : 'HTTP/1.0' );
-	
-	function error($status, $message){
+	define( 'PROTOCOL', isset( $server_protocol ) ? $server_protocol : 'HTTP/1.0'  );
+
+	/**
+	 * Outputs messages in response
+	 * 
+	 * @param string $status The HTTP Status
+	 * @param string $message The message to include in the body
+	 */
+	function error( $status, $message ) {
 		header( PROTOCOL . ' ' . $status );
-		die( "<h1>WPDeploy Error: $message</h1>"
+		die( "<h1>WPDeploy: $message</h1>"
 			. "<p>Ask the server administrator to see the WPDeploy log file for more details.</p>" );
 	}
-	
+
 	/*
 	 * Some constants
 	 * ==============
@@ -59,41 +69,40 @@ namespace Yapapaya\DevOps\WPD {
 	 * @since 0.1
 	 */
 	define( 'ABSPATH', dirname( __FILE__ ) . '/' );
-	
 
-	if ( file_exists( dirname(dirname( ABSPATH )) . '/wp-deploy-config/repositories.php' ) ) {
+	$path = '';
 
-		/**
-		 * Config Path
-		 * 
-		 * @since 0.1
-		 */
-		define( 'CONFIGPATH', dirname(dirname( ABSPATH )) . '/wp-deploy-config/' );
+	// if config directory is outside the root
+	if ( file_exists( dirname( dirname( ABSPATH ) ) . '/wp-deploy-config/repositories.php' ) ) {
+
+		$path = dirname( dirname( ABSPATH ) ) . '/wp-deploy-config/';
 	} elseif ( file_exists( ABSPATH . 'wp-deploy-config/repositories.php' ) ) {
 
-		/**
-		 * Config Path
-		 * 
-		 * @since 0.1
-		 */
-		define( 'CONFIGPATH', ABSPATH . 'wp-deploy-config/' );
+		$path = ABSPATH . 'wp-deploy-config/';
 	} else {
 
-		error( 
-			'501 Not Implemented',
-			'Configuration not found in expected paths'
+		// no configuration found
+		error(
+			'501 Not Implemented', 'Configuration not found in expected paths'
 		);
 	}
-	
+
+	/**
+	 * Configuration Path
+	 * 
+	 * @since 0.1
+	 */
+	define( 'CONFIGPATH', dirname( dirname( ABSPATH ) ) . '/wp-deploy-config/' );
+
 	/**
 	 * Import Constants set by user if any
 	 */
-	require_once(CONFIGPATH.'constants.php');
+	require_once(CONFIGPATH . 'constants.php');
 
 
 	if ( ! defined( 'LOG' ) ) {
 		/**
-		 * Log requests to a log
+		 * Whether to use log
 		 * 
 		 * @since 0.1
 		 */
@@ -102,7 +111,7 @@ namespace Yapapaya\DevOps\WPD {
 
 	if ( ! defined( 'LOGFILE' ) ) {
 		/**
-		 * Log requests to a log
+		 * Path to the log file
 		 * 
 		 * @since 0.1
 		 */
@@ -111,7 +120,7 @@ namespace Yapapaya\DevOps\WPD {
 
 	if ( ! defined( 'SLIM' ) ) {
 		/**
-		 * Log requests to a log
+		 * Whether to run slim deploys
 		 * 
 		 * @since 0.1
 		 */
@@ -120,21 +129,21 @@ namespace Yapapaya\DevOps\WPD {
 
 
 	/**
-	 * Include main class that handles deployment
+	 * Include class that loads configuration
 	 * 
 	 * @since 0.1
 	 */
 	require_once( ABSPATH . 'classes/Config.php' );
-	
+
 	/**
-	 * Include main class that handles deployment
+	 * Include class that processes the webhook payload 
 	 * 
 	 * @since 0.1
 	 */
 	require_once( ABSPATH . 'classes/Payload.php' );
 
 	/**
-	 * Include main class that handles deployment
+	 * Include class that maps payload to schema
 	 * 
 	 * @since 0.1
 	 */
@@ -153,7 +162,7 @@ namespace Yapapaya\DevOps\WPD {
 	 * ======
 	 */
 
-	// instantiate the class
+	// instantiate the Deploy class
 	$wpd = new Deploy();
 
 	//and deploy!
