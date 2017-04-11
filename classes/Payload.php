@@ -49,7 +49,9 @@ namespace Yapapaya\DevOps\WPD {
 		 */
 		public function is_IP_valid() {
 			
-			$ip = $_SERVER[ $this->config->schema[ 'ip_param' ] ];
+			$ip_header = empty($this->config->schema[ 'ip_param' ])? 'REMOTE_ADDR': $this->config->schema[ 'ip_param' ];
+			
+			$ip = $_SERVER[ $ip_header ];
 			
 			if ( empty( $ip ) ) {
 				error('400 Bad Request', 'Invalid Remote IP' );

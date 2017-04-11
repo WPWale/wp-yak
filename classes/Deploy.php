@@ -111,7 +111,7 @@ namespace Yapapaya\DevOps\WPD {
 
 			exec( 'git init' );
 
-			exec( "git remote add origin" . $this->config->repo[ 'git_url' ] );
+			exec( "git remote add origin " . $this->config->repo[ 'git_url' ] );
 
 			chdir( $original_dir );
 		}
@@ -124,9 +124,9 @@ namespace Yapapaya\DevOps\WPD {
 
 			// if we're here, everything was good, we can deploy
 			if ( SLIM ) {
-				$this->run_slim_cmd();
+				$this->run_slim_cmd();	
 			} else {
-				$this->run_cmd();
+				$this->run_cmd();	
 			}
 			
 			error('200 OK', 'Deployment completed successfully');
@@ -163,7 +163,7 @@ namespace Yapapaya\DevOps\WPD {
 
 
 			chdir( "wpd-repos/{$this->config->repo[ 'name' ]}" );
-
+			
 			exec( "git pull origin $branch" );
 
 
