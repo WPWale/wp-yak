@@ -1,24 +1,51 @@
 # WP Deploy
 
-Written in familiar PHP, WPDeploy (WPD) is a simple, but powerful deployment tool for WordPress Plugin & Theme Development
+Written in familiar PHP, WP Deploy (WPD) is a simple, but powerful deployment tool for WordPress Plugin & Theme Development
 
-    Tested only for GitHub. Don't use yet.
+    Tested only for GitHub (BitBucket & GitLab pending). Don't use yet.
 
+Using remote git repos on GitHub, BitBucket or your own self-hosted instance of GitLab, you can automate your deployment workflow between development, staging and production servers.
+
+Whether you're building a theme, plugin, mu-plugin or combinations of those for a client website, WP Deploy will automatically deploy the latest code intended for a server, based on your configuration. Here's an example:
+
+## Example Workflow
+
+git branch		workflow stage		server
+
+==========		================	============================
+
+master			Development		https://dev.yoursite.com
+
+review			Code Review		- NA -
+
+somebranch		Custom Stage		https://custom.yoursite.com
+
+staging			Staging			https://staging.yoursite.com
+
+production		Live/ Production	https://yoursite.com
+
+* While developing in a team: `git push origin master` will deploy code to `https://dev.yoursite.com`
+* Once the code is reviewed internally and is ready for client review: `git push origin staging` will deploy code to `https://staging.yoursite.com`
+* Once the clients' reviewed everything and gives a go ahead for going live: `git push origin production` will deploy code on the live site, `https://yoursite.com`
+
+## Slim & Faster Deploys
+
+Instead of cloning and maintaining the whole repository on servers, WP Deploy tries to only deploy the code without the scm data (or the `.git` directory, etc). Using [`git archive`](https://git-scm.com/docs/git-archive), WPDeploy is able to only copy the files at a  particular branch or tag, without the commit history:
+
+`git archive --remote=git@github.com:your-organisation-or-username/your-plugin.git`
+
+GitHub doesn't allow `git archive`, but fortunately, [GitHub supports svn clients](https://help.github.com/articles/support-for-subversion-clients/). So, we use the svn equivalent of `git archive`, [`svn export`](http://svnbook.red-bean.com/en/1.7/svn.ref.svn.c.export.html). See: [http://stackoverflow.com/a/18324428/1589999](http://stackoverflow.com/a/18324428/1589999)
+
+## Regular Deploys
+
+Of course, if you wish to maintain the whole repository on your servers, you can disable the slim deploy. To do that, set the `SLIM` constant to `false` in `wp-deploy-config/constants.php`.
+
+This way, WP Deploy will use `git pull` and maintain a local copy with commit history inside the `wp-deploy/wpd-repos/` directory and copy over the latest code to the deploy path. This is done, instead of maintaining the repo in the actual deploy path (say `wp-content/themes/your-theme`) to prevent over-writing by a manual upload. Without this, if someone uploads the theme/ plugin manually, the scm information will be overwritten and the deploy would break. With this mechanism, a manual upload will be overwritten in the next push!
 
 ## Pre-Requisites
 Make sure that the following are installed:
  * `git`
  * `svn` for Slim Deploys using GitHub
-
-This is because GitHub doesn't allow a command like this:
-
-`git archive --remote=git@github.com:your-organisation-or-username/your-plugin.git`
-
-
-The slimness of the slim deploy is because, the whole repository isn't cloned or maintained on the servers. Using [`git archive`](https://git-scm.com/docs/git-archive), WPDeploy is able to only copy the files at a  particular branch or tag, without the commit history (the `.git` folder).
-
-
-Fotunately, [GitHub supports svn clients](https://help.github.com/articles/support-for-subversion-clients/). So, we use the svn equivalent of `git archive`, [`svn export`](http://svnbook.red-bean.com/en/1.7/svn.ref.svn.c.export.html). See: 
 
 ## Usage
 
@@ -67,27 +94,43 @@ The schema for GitLab looks like this
 
 ```
 // Payload Schema for GitLab Instance
-	// your Gitlab instance's domain
-	'git.yoursite.com' => array(
-		// your GitLab instance's IP range in CIDR format
-		// use http://www.ipaddressguide.com/cidr to get it
-		"ip_whitelist" => '127.0.0.0/32',
-		"token" => array(
-			"header" => 'HTTP_X_Gitlab_Token',
-			"hashed" => false,
-		),
-		"ref" => array(
-			"param" => array( 'ref' ),
-			"pattern" => '^refs\/head\/',
-		),
-		"branch_name" => array(
-			"param" => array( 'ref' ),
-			"pattern" => '^refs\/head\/(.*)$',
-		),
-		"git_archive" => true,
+// your Gitlab instance's domain
+'git.yoursite.com' => array(
+	// your GitLab instance's IP range in CIDR format
+	// use http://www.ipaddressguide.com/cidr to get it
+	"ip_whitelist" => '127.0.0.0/32',
+	"ip_param" => 'HTTP_CF_CONNECTING_IP',
+	"token" => array(
+		"header" => 'HTTP_X_Gitlab_Token',
+		"hashed" => false,
 	),
+	"ref" => array(
+		"param" => array( 'ref' ),
+		"pattern" => '/^refs\/head\//',
+	),
+	"branch_name" => array(
+		"param" => array( 'ref' ),
+		"pattern" => '/^refs\/head\/(.*)$/',
+	),
+	"git_archive" => true,
+),
 ```
-Just add your instance's domain name and optionally, a valid IP range for added security.
+The key for each schema is the domain name of the remote. The keys inside the schema:
+
+ * `ip_whitelist` A whitelisted range of IP's
+ * `ip_param` The header that contains the IP of the remote. Leave it empty if your server directly talks to remote without a proxy in between. In the example above, the `HTTP_CF_CONNECTING_IP` is where CloudFlare stores the webhook's original IP address.
+ * `token` GitHub and GitLab (but not Bitbucket) allow you to set an additional security token that is sent as a header.
+  * `header` The header that contains the security token
+  * `hashed` GitHub hashes the security key, GitLab doesn't. Set it to false, if it isn't hashed or true, if it is.
+ * `ref` Schema for the ref (branch/tag) the payload is for.
+  * `param` The parameter that contains the ref information
+  * `pattern` The regex pattern to match against to know that it is a branch
+ * `branch_name` Schema for the branch name in the payload
+  * `param` The parameter that contains the branch name
+  * `pattern` The regex pattern to match against to get the branch name
+ * `git_archive` Whether the remote supports `git archive` command. Is true for everyone except GitHub
+
+To setup deployments with your own Gitlab instance, just change the key (to the domain name) and optionally,set the `ip_whitelist`. To account for Cloudflare or similar proxies, set the `ip_param`. Nothing else needs to be changed.
 
 #### 1.3. Configure Repos
 
@@ -131,22 +174,22 @@ vim /var/www/yoursite.com/wp-deploy-config/constants.php
 define( 'LOG', true );
 ```
 
-This logs all the requests, for debugging or any other reason.
+(not implement, yet) This logs all the requests, for debugging or any other reason.
 
 ```
 define( 'LOGFILE', '/path/to/directory' );
 ```
 
-Log to a custom file, instead of the default.
+(not implement, yet) Log to a custom file, instead of the default.
 
 
 ```
-define( 'SLIM', false);
+define( 'SLIM', true);
 ```
 
 By default, WPDeploy performs slim deploys using `git archive` or `svn export`(for GitHub). This means that the whole repository is not maintained on the server. This can save up a lot of space and data and is similar to downloading a zip file of the specified branch or tag without the commit history (the `.git` directory).
 
-Set this to `true`, if you want to or need to maintain the whole git repository on your servers. 
+Set this to `false`, if you want to or need to maintain the whole git repository on your servers. 
 
 ### 2. Setup Deploy Keys
 
