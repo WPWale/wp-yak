@@ -1,6 +1,6 @@
 #WP Deploy
 
-    Untested code, written only as a concept. Don't use yet.
+    ~Untested code, written only as a concept~ Tested only for GitHub. Don't use yet.
 
 
 ## Pre-Requisites
