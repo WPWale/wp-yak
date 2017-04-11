@@ -13,6 +13,8 @@ namespace Yapapaya\DevOps\WPD {
 
 	/**
 	 * Maps payload to configuration
+	 * 
+	 * @since 0.1
 	 */
 	class Map {
 
