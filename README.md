@@ -54,13 +54,13 @@ If your remote repository is on [GitHub](https://github.com) or [BitBucket](http
 If your remote repository is on a self-hosted instance of GitLab CE, you need to set up schema for it.
 
 ```
-vim /var/www/yoursite.com/htdocs/wp-deploy-config/webhook-payload-schema.php
+vim /var/www/yoursite.com/htdocs/wp-deploy-config/webhook-schema.php
 ```
 
 or
 
 ```
-vim /var/www/yoursite.com/wp-deploy-config/webhook-payload-schema.php
+vim /var/www/yoursite.com/wp-deploy-config/webhook-schema.php
 ```
 
 The schema for GitLab looks like this
@@ -94,13 +94,13 @@ Just add your instance's domain name and optionally, a valid IP range for added 
 Open repository configuration
 
 ```
-vim /var/www/yoursite.com/htdocs/wp-deploy-config/repositories-to-deploy.php
+vim /var/www/yoursite.com/htdocs/wp-deploy-config/repositories.php
 ```
 
 or
 
 ```
-vim /var/www/yoursite.com/wp-deploy-config/repositories-to-deploy.php
+vim /var/www/yoursite.com/wp-deploy-config/repositories.php
 ```
 
 For each of your repos, create a config item in the `$config` array. There are enough examples in the file itself. Each item is intern an array with the following keys
@@ -117,13 +117,13 @@ Open constants file
 Open repository configuration
 
 ```
-vim /var/www/yoursite.com/htdocs/wp-deploy-config/application-constants.php
+vim /var/www/yoursite.com/htdocs/wp-deploy-config/constants.php
 ```
 
 or
 
 ```
-vim /var/www/yoursite.com/wp-deploy-config/application-constants.php
+vim /var/www/yoursite.com/wp-deploy-config/constants.php
 ```
 
 

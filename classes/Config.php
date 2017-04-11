@@ -20,7 +20,7 @@ namespace Yapapaya\DevOps\WPD {
 
 		public function init() {
 
-			$repos = include_once(CONFIGPATH . 'repositories-to-deploy.php' );
+			$repos = include_once(CONFIGPATH . 'repositories.php' );
 
 			$requested_deploy = filter_input( \INPUT_GET, 'deploy', \FILTER_SANITIZE_STRING );
 
@@ -83,7 +83,7 @@ namespace Yapapaya\DevOps\WPD {
 		}
 
 		public function set_path() {
-			$path_types = include_once(CONFIGPATH . 'deployment-path-types.php' );
+			$path_types = include_once(CONFIGPATH . 'path-types.php' );
 
 			$base_path = $path_types[ $this->repo[ 'type' ] ];
 
@@ -114,7 +114,7 @@ namespace Yapapaya\DevOps\WPD {
 		}
 
 		public function set_schema() {
-			$schemas = include_once(CONFIGPATH . 'webhook-payload-schema.php' );
+			$schemas = include_once(CONFIGPATH . 'webhook-schema.php' );
 
 			$schema = isset( $schemas[ $this->repo[ 'remote_domain' ] ] ) ? $schemas[ $this->repo[ 'remote_domain' ] ] : false;
 

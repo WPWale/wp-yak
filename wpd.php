@@ -61,7 +61,7 @@ namespace Yapapaya\DevOps\WPD {
 	define( 'ABSPATH', dirname( __FILE__ ) . '/' );
 	
 
-	if ( file_exists( dirname(dirname( ABSPATH )) . '/wp-deploy-config/repositories-to-deploy.php' ) ) {
+	if ( file_exists( dirname(dirname( ABSPATH )) . '/wp-deploy-config/repositories.php' ) ) {
 
 		/**
 		 * Config Path
@@ -69,7 +69,7 @@ namespace Yapapaya\DevOps\WPD {
 		 * @since 0.1
 		 */
 		define( 'CONFIGPATH', dirname(dirname( ABSPATH )) . '/wp-deploy-config/' );
-	} elseif ( file_exists( ABSPATH . 'wp-deploy-config/repositories-to-deploy.php' ) ) {
+	} elseif ( file_exists( ABSPATH . 'wp-deploy-config/repositories.php' ) ) {
 
 		/**
 		 * Config Path
@@ -88,7 +88,7 @@ namespace Yapapaya\DevOps\WPD {
 	/**
 	 * Import Constants set by user if any
 	 */
-	require_once(CONFIGPATH.'application-constants.php');
+	require_once(CONFIGPATH.'constants.php');
 
 
 	if ( ! defined( 'LOG' ) ) {
