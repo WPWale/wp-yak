@@ -11,7 +11,7 @@ Whether you're building a theme, plugin, mu-plugin or combinations of those for 
 ## Example Workflow
 
 | git branch  | workflow stage   | server                       |
-| -----------:|:----------------:| ----------------------------:|
+| -----------:|:----------------:| :--------------------------- |
 | master      | Development	 | https://dev.yoursite.com     |
 | review      | Code Review	 | - NA -                       |
 | custom      | Custom Stage	 | https://custom.yoursite.com  |
