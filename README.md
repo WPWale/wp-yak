@@ -10,19 +10,13 @@ Whether you're building a theme, plugin, mu-plugin or combinations of those for 
 
 ## Example Workflow
 
-git branch		workflow stage		server
-
-==========		================	============================
-
-master			Development		https://dev.yoursite.com
-
-review			Code Review		- NA -
-
-somebranch		Custom Stage		https://custom.yoursite.com
-
-staging			Staging			https://staging.yoursite.com
-
-production		Live/ Production	https://yoursite.com
+| git branch  | workflow stage   | server                       |
+| -----------:|:----------------:| ----------------------------:|
+| master      | Development	 | https://dev.yoursite.com     |
+| review      | Code Review	 | - NA -                       |
+| custom      | Custom Stage	 | https://custom.yoursite.com  |
+| staging     | Staging		 | https://staging.yoursite.com |
+| production  | Live/ Production | https://yoursite.com         |
 
 * While developing in a team: `git push origin master` will deploy code to `https://dev.yoursite.com`
 * Once the code is reviewed internally and is ready for client review: `git push origin staging` will deploy code to `https://staging.yoursite.com`
