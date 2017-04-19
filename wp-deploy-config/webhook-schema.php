@@ -30,6 +30,7 @@ return $config = array(
 			"param" => array( 'ref' ),
 			"pattern" => '/^refs\/head\/(.*)$/',
 		),
+		"git_url_param" => array('repository', 'url'),
 		"git_archive" => true,
 	),
 
@@ -49,6 +50,7 @@ return $config = array(
 			"param" => array( 'ref' ),
 			"pattern" => '/^refs\/heads\/(.*)$/',
 		),
+		"git_url_param" => array('repository', 'git_url'),
 		"git_archive" => false,
 	),
 
@@ -67,6 +69,7 @@ return $config = array(
 			"param" => array( 'push', 'changes', 'new', 'name' ),
 			"pattern" => '/^(.*$)/',
 		),
+		"git_url_param" => array('repository', 'full_name'),
 		"git_archive" => false,
 	),
 	
