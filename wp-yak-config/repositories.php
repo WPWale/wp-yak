@@ -2,8 +2,8 @@
 /**
  * Contains configuration of repositories to deploy
  * 
- * @package WP-Deploy
- * @subpackage WP-Deploy-Config
+ * @package WP-Yak
+ * @subpackage WP-Yak-Config
  * 
  * @author Saurabh Shukla <saurabh@yapapaya.com>
  * 

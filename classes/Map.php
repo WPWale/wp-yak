@@ -3,7 +3,7 @@
 /**
  * Contains class that maps payload with configuration
  * 
- * @package WP-Deploy
+ * @package WP-Yak
  * 
  * @author Saurabh Shukla <saurabh@yapapaya.com>
  * 

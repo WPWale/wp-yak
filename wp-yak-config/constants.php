@@ -2,8 +2,8 @@
 /**
  * Contains constants to over-ride the default constants
  * 
- * @package WP-Deploy
- * @subpackage WP-Deploy-Config
+ * @package WP-Yak
+ * @subpackage WP-Yak-Config
  * 
  * @author Saurabh Shukla <saurabh@yapapaya.com>
  * 
@@ -11,6 +11,6 @@
  */
 // define( 'LOG', false );
 
-// define( 'LOGFILE', dirname( ABSPATH ) . 'logs/wp-deploy.log' );
+// define( 'LOGFILE', dirname( ABSPATH ) . 'logs/wp-yak.log' );
 
 // define( 'SLIM', true );

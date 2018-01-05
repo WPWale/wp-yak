@@ -1,11 +1,11 @@
 <?php
 
 /**
- * WPDeploy
+ * WPYak
  * 
- * Written in familiar PHP, WPDeploy (WPD) is a simple, powerful, extendable deployment for WordPress Pugin & Theme Development
+ * Written in familiar PHP, WPYak is a simple, powerful, extendable deployment for WordPress Pugin & Theme Development
  * 
- * @package WP-Deploy
+ * @package WP-Yak
  * @version 0.1.0
  * 
  * @author Saurabh Shukla <saurabh@yapapaya.com>
@@ -73,12 +73,12 @@ namespace Yapapaya\DevOps\WPD {
 	$path = '';
 
 	// if config directory is outside the root
-	if ( file_exists( dirname( dirname( ABSPATH ) ) . '/wp-deploy-config/repositories.php' ) ) {
+	if ( file_exists( dirname( dirname( ABSPATH ) ) . '/wp-yak-config/repositories.php' ) ) {
 
-		$path = dirname( dirname( ABSPATH ) ) . '/wp-deploy-config/';
-	} elseif ( file_exists( ABSPATH . 'wp-deploy-config/repositories.php' ) ) {
+		$path = dirname( dirname( ABSPATH ) ) . '/wp-yak-config/';
+	} elseif ( file_exists( ABSPATH . 'wp-yak-config/repositories.php' ) ) {
 
-		$path = ABSPATH . 'wp-deploy-config/';
+		$path = ABSPATH . 'wp-yak-config/';
 	} else {
 
 		// no configuration found
@@ -92,7 +92,7 @@ namespace Yapapaya\DevOps\WPD {
 	 * 
 	 * @since 0.1
 	 */
-	define( 'CONFIGPATH', dirname( dirname( ABSPATH ) ) . '/wp-deploy-config/' );
+	define( 'CONFIGPATH', dirname( dirname( ABSPATH ) ) . '/wp-yak-config/' );
 
 
 	/**
@@ -116,7 +116,7 @@ namespace Yapapaya\DevOps\WPD {
 		 * 
 		 * @since 0.1
 		 */
-		define( 'LOGFILE', dirname( ABSPATH ) . 'logs/wp-deploy.log' );
+		define( 'LOGFILE', dirname( ABSPATH ) . 'logs/wp-yak.log' );
 	}
 
 	if ( ! defined( 'SLIM' ) ) {

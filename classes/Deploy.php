@@ -2,7 +2,7 @@
 /**
  * Contains class that loads configuration
  * 
- * @package WP-Deploy
+ * @package WP-Yak
  * 
  * @author Saurabh Shukla <saurabh@yapapaya.com>
  * 
@@ -131,7 +131,7 @@ namespace Yapapaya\DevOps\WPD {
 			 * 
 			 * So a repo with a git url like this:
 			 *  git@github.com:your-organisation-or-username/your-theme.git
-			 *  will be maintained inside the 'wp-deploy/wpd-repos/your-theme/'
+			 *  will be maintained inside the 'wp-yak/wpd-repos/your-theme/'
 			 *  directory and then just the code (without the .git folder)
 			 *  will be copied over to 'wp-content/themes/your-theme/'
 			 * 

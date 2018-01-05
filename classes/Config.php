@@ -2,7 +2,7 @@
 /**
  * Contains class that loads configuration
  * 
- * @package WP-Deploy
+ * @package WP-Yak
  * 
  * @author Saurabh Shukla <saurabh@yapapaya.com>
  * 
@@ -14,8 +14,8 @@ namespace Yapapaya\DevOps\WPD {
 	 * Loads Configuration
 	 * 
 	 * Picks up the requested deploy from webhook url
-	 *  http://yoursite.com/wp-deploy/wpd.php, or
-	 *  http://yoursite.com/wp-deploy/wpd.php?deploy=your-theme,
+	 *  http://yoursite.com/wp-yak/wpy.php, or
+	 *  http://yoursite.com/wp-yak/wpy.php?deploy=your-theme,
 	 *  sets up paths for deployment and schema to use for processing payload
 	 * 
 	 * @since 0.1

@@ -32,9 +32,9 @@ GitHub doesn't allow `git archive`, but fortunately, [GitHub supports svn client
 
 ## Regular Deploys
 
-Of course, if you wish to maintain the whole repository on your servers, you can disable the slim deploy. To do that, set the `SLIM` constant to `false` in `wp-deploy-config/constants.php`.
+Of course, if you wish to maintain the whole repository on your servers, you can disable the slim deploy. To do that, set the `SLIM` constant to `false` in `wp-yak-config/constants.php`.
 
-This way, WP Deploy will use `git pull` and maintain a local copy with commit history inside the `wp-deploy/wpd-repos/` directory and copy over the latest code to the deploy path. This is done, instead of maintaining the repo in the actual deploy path (say `wp-content/themes/your-theme`) to prevent over-writing by a manual upload. Without this, if someone uploads the theme/ plugin manually, the scm information will be overwritten and the deploy would break. With this mechanism, a manual upload will be overwritten in the next push!
+This way, WP Deploy will use `git pull` and maintain a local copy with commit history inside the `wp-yak/wpd-repos/` directory and copy over the latest code to the deploy path. This is done, instead of maintaining the repo in the actual deploy path (say `wp-content/themes/your-theme`) to prevent over-writing by a manual upload. Without this, if someone uploads the theme/ plugin manually, the scm information will be overwritten and the deploy would break. With this mechanism, a manual upload will be overwritten in the next push!
 
 ## Pre-Requisites
 Make sure that the following are installed:
@@ -58,13 +58,13 @@ Right now there're no automattic installation methods, you'd have to clone this 
 If you're using EasyEngine, follow these steps, after logging in via ssh, clone this repository to your webroot
 
 ```
-git clone git@github.com:Yapapaya/wp-deploy.git /var/www/yoursite.com/htdocs/
+git clone git@github.com:Yapapaya/wp-yak.git /var/www/yoursite.com/htdocs/
 ```
 
 (_Optional_)Move `wdp-config` outside the web root for security, especially if you're using tokens
 
 ```
-mv /var/www/yoursite.com/htdocs/wp-deploy/wp-deploy-config /var/www/yoursite.com/wp-deploy-config
+mv /var/www/yoursite.com/htdocs/wp-yak/wp-yak-config /var/www/yoursite.com/wp-yak-config
 ```
 
 #### 1.2. (Optional) Set up schema for GitLab
@@ -75,13 +75,13 @@ If your remote repository is on [GitHub](https://github.com) or [BitBucket](http
 If your remote repository is on a self-hosted instance of GitLab CE, you need to set up schema for it.
 
 ```
-vim /var/www/yoursite.com/htdocs/wp-deploy-config/webhook-schema.php
+vim /var/www/yoursite.com/htdocs/wp-yak-config/webhook-schema.php
 ```
 
 or
 
 ```
-vim /var/www/yoursite.com/wp-deploy-config/webhook-schema.php
+vim /var/www/yoursite.com/wp-yak-config/webhook-schema.php
 ```
 
 The schema for GitLab looks like this
@@ -131,13 +131,13 @@ To setup deployments with your own Gitlab instance, just change the key (to the 
 Open repository configuration
 
 ```
-vim /var/www/yoursite.com/htdocs/wp-deploy-config/repositories.php
+vim /var/www/yoursite.com/htdocs/wp-yak-config/repositories.php
 ```
 
 or
 
 ```
-vim /var/www/yoursite.com/wp-deploy-config/repositories.php
+vim /var/www/yoursite.com/wp-yak-config/repositories.php
 ```
 
 For each of your repos, create a config item in the `$config` array. There are enough examples in the file itself. Each item is intern an array with the following keys
@@ -154,13 +154,13 @@ Open constants file
 Open repository configuration
 
 ```
-vim /var/www/yoursite.com/htdocs/wp-deploy-config/constants.php
+vim /var/www/yoursite.com/htdocs/wp-yak-config/constants.php
 ```
 
 or
 
 ```
-vim /var/www/yoursite.com/wp-deploy-config/constants.php
+vim /var/www/yoursite.com/wp-yak-config/constants.php
 ```
 
 
@@ -198,7 +198,7 @@ Generate ssh key pairs on each of your servers (if not done already) and add the
 Setup a webhook on your remote git repository. For the webhook url, if your repository is `git@github.com:your-organisation-or-username/your-theme.git`, use the following format:
 
 ```
-https://yoursite.com/wpd/wpd.php?deploy=your-theme
+https://yoursite.com/wpd/wpy.php?deploy=your-theme
 ```
 where the value of the `deploy` parameter of the querystring is the same as the name of the repository without the `.git` suffix.
 
