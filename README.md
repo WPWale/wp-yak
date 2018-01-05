@@ -1,12 +1,12 @@
-# WP Deploy
+# WP Yak
 
-Written in familiar PHP, WP Deploy (WPD) is a simple, but powerful deployment tool for WordPress Plugin & Theme Development
+Written in familiar PHP, WP Yak (WPD) is a simple, but powerful deployment tool for WordPress Plugin & Theme Development
 
     Tested only for GitHub (BitBucket & GitLab pending). Don't use yet.
 
 Using remote git repos on GitHub, BitBucket or your own self-hosted instance of GitLab, you can automate your deployment workflow between development, staging and production servers.
 
-Whether you're building a theme, plugin, mu-plugin or combinations of those for a client website, WP Deploy will automatically deploy the latest code intended for a server, based on your configuration. Here's an example:
+Whether you're building a theme, plugin, mu-plugin or combinations of those for a client website, WP Yak will automatically deploy the latest code intended for a server, based on your configuration. Here's an example:
 
 ## Example Workflow
 
@@ -24,7 +24,7 @@ Whether you're building a theme, plugin, mu-plugin or combinations of those for 
 
 ## Slim & Faster Deploys
 
-Instead of cloning and maintaining the whole repository on servers, WP Deploy tries to only deploy the code without the scm data (or the `.git` directory, etc). Using [`git archive`](https://git-scm.com/docs/git-archive), WPDeploy is able to only copy the files at a  particular branch or tag, without the commit history:
+Instead of cloning and maintaining the whole repository on servers, WP Yak tries to only deploy the code without the scm data (or the `.git` directory, etc). Using [`git archive`](https://git-scm.com/docs/git-archive), WPDeploy is able to only copy the files at a  particular branch or tag, without the commit history:
 
 `git archive --remote=git@github.com:your-organisation-or-username/your-plugin.git`
 
@@ -34,7 +34,7 @@ GitHub doesn't allow `git archive`, but fortunately, [GitHub supports svn client
 
 Of course, if you wish to maintain the whole repository on your servers, you can disable the slim deploy. To do that, set the `SLIM` constant to `false` in `wp-yak-config/constants.php`.
 
-This way, WP Deploy will use `git pull` and maintain a local copy with commit history inside the `wp-yak/wpd-repos/` directory and copy over the latest code to the deploy path. This is done, instead of maintaining the repo in the actual deploy path (say `wp-content/themes/your-theme`) to prevent over-writing by a manual upload. Without this, if someone uploads the theme/ plugin manually, the scm information will be overwritten and the deploy would break. With this mechanism, a manual upload will be overwritten in the next push!
+This way, WP Yak will use `git pull` and maintain a local copy with commit history inside the `wp-yak/wpd-repos/` directory and copy over the latest code to the deploy path. This is done, instead of maintaining the repo in the actual deploy path (say `wp-content/themes/your-theme`) to prevent over-writing by a manual upload. Without this, if someone uploads the theme/ plugin manually, the scm information will be overwritten and the deploy would break. With this mechanism, a manual upload will be overwritten in the next push!
 
 ## Pre-Requisites
 Make sure that the following are installed:
@@ -210,4 +210,4 @@ where the value of the `deploy` parameter of the querystring is the same as the 
 
 Now, write code as usual and push to a branch. If the branch is mapped to a server, the code will get automatically deployed.
 
-No cloning or other setup needed. WP Deploy will automatically clone, initialise, pull, etc as needed.
+No cloning or other setup needed. WP Yak will automatically clone, initialise, pull, etc as needed.
