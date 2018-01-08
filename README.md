@@ -1,6 +1,6 @@
 # WP Yak
 
-Written in familiar PHP, WP Yak (WPD) is a simple, but powerful deployment tool for WordPress Plugin & Theme Development
+Written in familiar PHP, WP Yak (WPY) is a simple, but powerful deployment tool for WordPress Plugin & Theme Development
 
     Tested only for GitHub (BitBucket & GitLab pending). Don't use yet.
 
@@ -24,7 +24,7 @@ Whether you're building a theme, plugin, mu-plugin or combinations of those for 
 
 ## Slim & Faster Deploys
 
-Instead of cloning and maintaining the whole repository on servers, WP Yak tries to only deploy the code without the scm data (or the `.git` directory, etc). Using [`git archive`](https://git-scm.com/docs/git-archive), WPDeploy is able to only copy the files at a  particular branch or tag, without the commit history:
+Instead of cloning and maintaining the whole repository on servers, WP Yak tries to only deploy the code without the scm data (or the `.git` directory, etc). Using [`git archive`](https://git-scm.com/docs/git-archive), WP Yak is able to only copy the files at a  particular branch or tag, without the commit history:
 
 `git archive --remote=git@github.com:your-organisation-or-username/your-plugin.git`
 
@@ -45,13 +45,13 @@ Make sure that the following are installed:
 
 ### 1. Getting Started
 
- 1. Install WPDeploy 
+ 1. Install WP Yak 
  1. Setup schema for GitLab
  1. Configure repos
  1. Setup constants
 
 
-#### 1.1. Install WPDeploy
+#### 1.1. Install WP Yak
 
 Right now there're no automattic installation methods, you'd have to clone this repo or archive its `master` branch using `git` or `svn` or upload the files manually.
 
@@ -181,7 +181,7 @@ define( 'LOGFILE', '/path/to/directory' );
 define( 'SLIM', true);
 ```
 
-By default, WPDeploy performs slim deploys using `git archive` or `svn export`(for GitHub). This means that the whole repository is not maintained on the server. This can save up a lot of space and data and is similar to downloading a zip file of the specified branch or tag without the commit history (the `.git` directory).
+By default, WP Yak performs slim deploys using `git archive` or `svn export`(for GitHub). This means that the whole repository is not maintained on the server. This can save up a lot of space and data and is similar to downloading a zip file of the specified branch or tag without the commit history (the `.git` directory).
 
 Set this to `false`, if you want to or need to maintain the whole git repository on your servers. 
 
